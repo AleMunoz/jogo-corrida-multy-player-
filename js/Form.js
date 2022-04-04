@@ -38,6 +38,9 @@ class Form {
       this.playButton.hide();
       var message = "Olá, "+this.input.value() + "<br> espere outro jogador entrar..."
       this.greeting.html(message);
+      playerCount = playerCount + 1;
+      console.log(playerCount);
+      player.updateCount(playerCount);
     });
     
   }
