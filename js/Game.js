@@ -8,8 +8,15 @@ class Game {
     playerCount = player.getCount();
   }
 
+  handleElements() {
+    form.hide();
+    form.titleImg.position(40,50);
+    fonformdata.titleImg.class("gameTitleAfterEffect")
+  }
+
   play() {
-    console.log(gameState);
+    Player.getPlayerInfo();
+    this.handleElements();
   }
 
   getGameState() {

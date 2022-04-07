@@ -20,4 +20,28 @@ class Player {
       playerCount: count
     });
   }
+
+  addPlayer(){
+    var playersRef = "players/player"+this.index;
+
+    if (this.index == 1) {
+      this.positionX = width/2 - 100;
+    } else {
+      this.positionX = width/2 + 100;
+    }
+
+    database.ref(playersRef).set({
+      name: this.name,
+      positionX: this.positionX,
+      positionY: this.positionY,
+    });
+  }
+
+
+  static getPlayerInfo() {
+    var playersRef = database.ref("players");
+    playersRef.on ("value",function (data) {
+      allPlayers = data.val();
+    });
+  }
 }
