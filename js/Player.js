@@ -1,6 +1,5 @@
 class Player {
   constructor() {
-    // propriedades - características
     this.name = null;
     this.index = null;
     this.positionX = 0;
@@ -8,40 +7,37 @@ class Player {
   }
 
   getCount() {
-    var playerCountRef = database.ref("playerCount");
-    playerCountRef.on("value", function (data) {
+    var playerCountRef = database.ref('playerCount');
+    playerCountRef.on('value', function (data) {
       playerCount = data.val();
+    })
+  }
+
+  updateCount(number) {
+    database.ref("/").update({
+      playerCount: number
     });
   }
 
-  updateCount(count) {
-    var playerCountRef = database.ref("/");
-    playerCountRef.update({
-      playerCount: count
-    });
-  }
-
-  addPlayer(){
-    var playersRef = "players/player"+this.index;
-
-    if (this.index == 1) {
+  addPlayer() {
+    var playerRef = "players/player"+ player.index;
+    if(player.index == 1) {
       this.positionX = width/2 - 100;
     } else {
       this.positionX = width/2 + 100;
     }
 
-    database.ref(playersRef).set({
+    database.ref(playerRef).set({
       name: this.name,
       positionX: this.positionX,
-      positionY: this.positionY,
-    });
+      positionY:  this.positionY,
+    })
   }
 
-
-  static getPlayerInfo() {
+  static getInfosPlayer() {
     var playersRef = database.ref("players");
-    playersRef.on ("value",function (data) {
-      allPlayers = data.val();
+    playersRef.on("value", function (data) {
+      players = data.val();
     });
   }
 }

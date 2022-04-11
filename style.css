@@ -13,18 +13,12 @@ canvas {
   display: block;
 }
 
-.gameTitleAfterEffect{
-  width: 25%;
-  height: 80px;
-}
-
-
 .gameTitle{
   width: 75%;
   height: 80px;
 }
 
-.greeting {
+.greeting{
   font-size: 40px;
   color: white;
   font-family: vollkorn;
@@ -69,4 +63,9 @@ canvas {
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   outline: none;
+}
+
+.gameTitleAfterEffect{
+  width: 25%;
+  height: 80px;
 }

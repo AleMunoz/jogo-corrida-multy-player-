@@ -10,21 +10,29 @@
     <script src="./lib/p5.play.js"></script>
 
     <link rel="stylesheet" href="style.css" />
-    
+
     <script src="./js/Game.js"></script>
     <script src="./js/Form.js"></script>
     <script src="./js/Player.js"></script>
+
+    <!-- ADICIONAR CÓDIGO Firebase SDK ABAIXO -->
     <script src="https://www.gstatic.com/firebasejs/6.3.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
-    <!-- ADICIONAR CÓDIGO Firebase SDK ABAIXO -->
     <script>
-   
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBOCWzgXAuSPE3fMT-oxUn7w5Nao3fqRWM",
+        authDomain: "jogo-de-corrida-multipla-558c6.firebaseapp.com",
+        databaseURL: "https://jogo-de-corrida-multipla-558c6-default-rtdb.firebaseio.com",
+        projectId: "jogo-de-corrida-multipla-558c6",
+        storageBucket: "jogo-de-corrida-multipla-558c6.appspot.com",
+        messagingSenderId: "605565806591",
+        appId: "1:605565806591:web:9eb9614f71fcd2878f29ca"
+      };
       firebase.initializeApp(firebaseConfig);
     </script>
-   
   </head>
   <body>
-    
     <script src="./sketch.js"></script>
   </body>
 </html>

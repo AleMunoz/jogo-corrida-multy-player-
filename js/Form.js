@@ -12,39 +12,38 @@ class Form {
     this.input.hide();
   }
 
-  display() {
-    this.setElementsPosition();
-    this.setElementsStyle();
-    this.handleMousePressed();
-  }
-
-  setElementsPosition() {
-    this.input.position(width/2 - 110, height/2 - 80);
-    this.playButton.position(width/2 - 90, height/2 - 20);
+  setPosition() {
+    this.input.position(width/2-110, height/2-80);
+    this.playButton.position(width/2-90, height/2-20);
     this.titleImg.position(120, 50);
-    this.greeting.position(width/2 - 300, height/2 - 100);
+    this.greeting.position(width/2-300, height/2-100);
   }
 
-  setElementsStyle() {
-    this.playButton.class("customButton");
+  setStyle() {
     this.input.class("customInput");
+    this.playButton.class("customButton");
     this.titleImg.class("gameTitle");
     this.greeting.class("greeting");
   }
 
-  handleMousePressed(){
+  handlePressButton() {
     this.playButton.mousePressed(() => {
       this.input.hide();
       this.playButton.hide();
-      var message = "Olá, "+this.input.value() + "<br> espere outro jogador entrar..."
+      var message = `Olá, ${this.input.value()} <br> espere o outro jogador entrar...`;
       this.greeting.html(message);
-      playerCount = playerCount + 1;
-      player.name = this.input.value();
+      playerCount += 1;
       player.index = playerCount;
+      player.name = this.input.value();
       player.addPlayer();
       player.updateCount(playerCount);
     });
-    
+  }
+
+  display() {
+    this.setPosition();
+    this.setStyle();
+    this.handlePressButton();
   }
 
 }
