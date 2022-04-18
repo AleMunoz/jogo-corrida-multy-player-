@@ -1,5 +1,8 @@
 class Game {
-  constructor() {}
+  constructor() {
+    this.resetTitle = createElement("h2");
+    this.resetButton = createButton("");
+  }
 
   start() {
     form = new Form();
@@ -35,12 +38,19 @@ class Game {
 
   handleElements() {
     form.hide();
-    form.titleImg.position(40, 50);
+    form.titleImg.position(width/2 - 350, 50);
     form.titleImg.class("gameTitleAfterEffect");
+
+    this.resetTitle.html("Resetar o jogo");
+    this.resetTitle.class('resetText');
+    this.resetButton.class('resetButton');
+    this.resetTitle.position (width/2 + 350, 40);
+    this.resetButton.position(width/2 + 400, 100);   
   }
 
   play() {
     this.handleElements();
+    this.handleResetButton();
     Player.getInfosPlayer();
     
     
@@ -77,9 +87,32 @@ class Game {
   }
 
   handlePlayerController() {
-    if(keyIsDown(38)) {
+    if(keyIsDown(UP_ARROW)) {
       player.positionY += 10;
       player.update();
     }
+    if(keyIsDown(LEFT_ARROW)) {
+      player.positionX -= 10;
+      player.update();
+    }
+    if(keyIsDown(RIGHT_ARROW)) {
+      player.positionX += 10;
+      player.update();
+    }
+  }
+
+  handleResetButton() {
+    this.resetButton.mousePressed(() => {
+      database.ref('/').set({
+        playerCount: 0,
+        gameState: 0,
+        players: {}
+      });
+      window.location.reload();
+    });
+  }
+
+  showLeaderBoard() {
+    var player = Object.values(players);
   }
 }
