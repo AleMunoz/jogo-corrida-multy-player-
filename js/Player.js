@@ -4,6 +4,18 @@ class Player {
     this.index = null;
     this.positionX = 0;
     this.positionY = 0;
+    this.rank = 0;
+    this.score = 0;
+  }
+
+  update() {
+    // players/player1
+    database.ref("/players/player"+this.index).update({
+      positionX: this.positionX,
+      positionY: this.positionY,
+      rank: this.rank,
+      score: this.score
+    });
   }
 
   getCount() {
@@ -31,6 +43,8 @@ class Player {
       name: this.name,
       positionX: this.positionX,
       positionY:  this.positionY,
+      rank: this.rank,
+      score: this.score
     })
   }
 
@@ -39,5 +53,15 @@ class Player {
     playersRef.on("value", function (data) {
       players = data.val();
     });
+  }
+
+  getDistance() {
+    var distanceRef = database.ref('players/player' + this.index);
+
+    distanceRef.on('value', (data)=> {
+      var position = data.val();
+      this.positionX = position.positionX;
+      this.positionY = position.positionY;
+    })
   }
 }

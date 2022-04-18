@@ -42,10 +42,44 @@ class Game {
   play() {
     this.handleElements();
     Player.getInfosPlayer();
-
+    
+    
+    
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
+      var index = 0;
+      for(var plr in players) {
+        var x = players[plr].positionX;
+        var y = height-players[plr].positionY;
+        cars[index].position.x = x;
+        cars[index].position.y = y;
+
+        
+        index += 1;
+
+        if(player.index == index) {
+          fill('red');
+          ellipse(x, y, 60, 60);
+          camera.position.x = width/2;
+          camera.position.y = y;
+
+          console.log(y);
+        }
+
+        
+        
+      }
+
+      this.handlePlayerController();
+
       drawSprites();
+    }
+  }
+
+  handlePlayerController() {
+    if(keyIsDown(38)) {
+      player.positionY += 10;
+      player.update();
     }
   }
 }

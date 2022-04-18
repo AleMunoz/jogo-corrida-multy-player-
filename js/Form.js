@@ -37,6 +37,8 @@ class Form {
       player.name = this.input.value();
       player.addPlayer();
       player.updateCount(playerCount);
+
+      player.getDistance();
     });
   }
 
