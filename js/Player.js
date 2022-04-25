@@ -8,9 +8,17 @@ class Player {
     this.score = 0;
   }
 
-  update() {
-    // players/player1
-    database.ref("/players/player"+this.index).update({
+  addPlayer() {
+    var playerIndex = "players/player" + this.index;
+
+    if (this.index === 1) {
+      this.positionX = width / 2 - 100;
+    } else {
+      this.positionX = width / 2 + 100;
+    }
+
+    database.ref(playerIndex).set({
+      name: this.name,
       positionX: this.positionX,
       positionY: this.positionY,
       rank: this.rank,
@@ -18,50 +26,42 @@ class Player {
     });
   }
 
-  getCount() {
-    var playerCountRef = database.ref('playerCount');
-    playerCountRef.on('value', function (data) {
-      playerCount = data.val();
-    })
-  }
-
-  updateCount(number) {
-    database.ref("/").update({
-      playerCount: number
+  getDistance() {
+    var playerDistanceRef = database.ref("players/player" + this.index);
+    playerDistanceRef.on("value", data => {
+      var data = data.val();
+      this.positionX = data.positionX;
+      this.positionY = data.positionY;
     });
   }
 
-  addPlayer() {
-    var playerRef = "players/player"+ player.index;
-    if(player.index == 1) {
-      this.positionX = width/2 - 100;
-    } else {
-      this.positionX = width/2 + 100;
-    }
+  getCount() {
+    var playerCountRef = database.ref("playerCount");
+    playerCountRef.on("value", data => {
+      playerCount = data.val();
+    });
+  }
 
-    database.ref(playerRef).set({
-      name: this.name,
+  updateCount(count) {
+    database.ref("/").update({
+      playerCount: count
+    });
+  }
+
+  update() {
+    var playerIndex = "players/player" + this.index;
+    database.ref(playerIndex).update({
       positionX: this.positionX,
-      positionY:  this.positionY,
+      positionY: this.positionY,
       rank: this.rank,
       score: this.score
-    })
-  }
-
-  static getInfosPlayer() {
-    var playersRef = database.ref("players");
-    playersRef.on("value", function (data) {
-      players = data.val();
     });
   }
 
-  getDistance() {
-    var distanceRef = database.ref('players/player' + this.index);
-
-    distanceRef.on('value', (data)=> {
-      var position = data.val();
-      this.positionX = position.positionX;
-      this.positionY = position.positionY;
-    })
+  static getPlayersInfo() {
+    var playerInfoRef = database.ref("players");
+    playerInfoRef.on("value", data => {
+      allPlayers = data.val();
+    });
   }
 }
