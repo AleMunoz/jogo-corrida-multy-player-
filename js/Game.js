@@ -24,6 +24,10 @@ class Game {
     car2.scale = 0.07;
 
     cars = [car1, car2];
+
+    goldCoinGroup = new Group();
+    
+    this.addSprites(goldCoinGroup,10, goldCoin, 0.10);
   }
 
   update(number) {
@@ -44,11 +48,11 @@ class Game {
     form.hide();
     form.titleImg.position(width/2 - 150, 50);
     form.titleImg.class("gameTitleAfterEffect");
-    this.resetTitle.position(width/2 + 350, 40);
+    this.resetTitle.position(width - 200, 40);
     this.resetTitle.html('reset game');
     this.resetTitle.class('resetTitle');
 
-    this.resetButton.position(width/2 + 380, 100);
+    this.resetButton.position(width - 200, 100);
     this.resetButton.class('resetButton');
 
     this.leaderTitle.position(width/18, 40);
@@ -62,13 +66,24 @@ class Game {
     this.leader2.html('leader2');
     this.leader2.class('leadersText');
   }
+  
+  addSprites(spriteGroup, spritesNumber, spriteImage, scale) {
+    for(var i = 0; i < spritesNumber; i = i + 1) {
+      var x = random(width/2 + 150, width/2 - 150);
+      var y = random(- height*4.5, height - 400);
+  
+      var sprite = createSprite(x, y);
+      sprite.addImage(spriteImage);
+      sprite.scale = scale;
+      spriteGroup.add(sprite);
+    }
+   
+  }
 
   play() {
     this.handleElements();
     this.handleMousePressedResetButton();
     Player.getInfosPlayer();
-    
-    
     
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
