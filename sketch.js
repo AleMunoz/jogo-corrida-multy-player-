@@ -9,6 +9,9 @@ var players;
 var car1, car2, cars;
 var car1Img, car2Img, trackImg;
 var goldCoin, goldCoinGroup;
+var obstaculo1;
+var obstaculo2;
+var obstacleGroup;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -16,6 +19,8 @@ function preload() {
   car1Img = loadImage('./assets/car1.png');
   car2Img = loadImage('./assets/car2.png');
   goldCoin = loadImage('./assets/goldCoin.png');
+  obstaculo1 = loadImage('./assets/obstacle1.png');
+  obstaculo2 = loadImage('./assets/obstacle2.png');
 }
 
 function setup() {

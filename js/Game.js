@@ -26,8 +26,25 @@ class Game {
     cars = [car1, car2];
 
     goldCoinGroup = new Group();
-    
+    obstacleGroup = new Group();
     this.addSprites(goldCoinGroup,10, goldCoin, 0.10);
+
+    var groupObstaclePositions = [
+      { x: width / 2 + 250, y: height - 800, image: obstaculo2 },
+      { x: width / 2 - 150, y: height - 1300, image: obstaculo1 },
+      { x: width / 2 + 250, y: height - 1800, image: obstaculo1 },
+      { x: width / 2 - 180, y: height - 2300, image: obstaculo2 },
+      { x: width / 2, y: height - 2800, image: obstaculo2 },
+      { x: width / 2 - 180, y: height - 3300, image: obstaculo1 },
+      { x: width / 2 + 180, y: height - 3300, image: obstaculo2 },
+      { x: width / 2 + 250, y: height - 3800, image: obstaculo2 },
+      { x: width / 2 - 150, y: height - 4300, image: obstaculo1 },
+      { x: width / 2 + 250, y: height - 4800, image: obstaculo2 },
+      { x: width / 2, y: height - 5300, image: obstaculo1 },
+      { x: width / 2 - 180, y: height - 5500, image: obstaculo2 }
+    ];
+    
+    this.addSprites(obstacleGroup, groupObstaclePositions.length, obstaculo1, 0.04, groupObstaclePositions);
   }
 
   update(number) {
@@ -67,17 +84,33 @@ class Game {
     this.leader2.class('leadersText');
   }
   
-  addSprites(spriteGroup, spritesNumber, spriteImage, scale) {
+  addSprites(spriteGroup, spritesNumber, spriteImage, scale, positions = []) {
     for(var i = 0; i < spritesNumber; i = i + 1) {
-      var x = random(width/2 + 150, width/2 - 150);
-      var y = random(- height*4.5, height - 400);
-  
+      var x;
+      var y;
+      if(positions.length  > 0) {
+        x = positions[i].x;
+        y = positions[i].y;
+        spriteImage = positions[i].image;
+      } else {
+        x = random(width/2 + 150, width/2 - 150);
+        y = random(- height*4.5, height - 400);
+      }
       var sprite = createSprite(x, y);
       sprite.addImage(spriteImage);
       sprite.scale = scale;
       spriteGroup.add(sprite);
     }
    
+  }
+
+  handleCoin(index) {
+    // callback
+    cars[index - 1].overlap(goldCoinGroup, function(car, coin) {
+      player.score=player.score + 10;
+      player.update();
+      coin.remove();
+    });
   }
 
   play() {
@@ -101,6 +134,7 @@ class Game {
         if(player.index == index) {
           fill('red');
           ellipse(x, y, 60, 60);
+          this.handleCoin(index);
           camera.position.x = width/2;
           if(players[plr].positionY > height) {
             camera.position.y = y;
