@@ -114,11 +114,26 @@ class Game {
     });
   }
 
+  handleFuel(index) {
+    cars[index - 1].overlap(groupFuel, function(car, fuel) {
+      fuel.remove();
+      
+    });
+  }
+
   play() {
     this.handleElements();
     this.handleMousePressedResetButton();
     Player.getInfosPlayer();
-    
+    player.getCarsEnd();
+
+    if(player.positionY > height * 6 - 100) {
+      player.rank += 1;
+      Player.updateCarsAtEnd(player.rank);
+      player.update();
+      this.showRank();
+    }
+
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
       this.showLeaderboard();
@@ -136,6 +151,7 @@ class Game {
           fill('red');
           ellipse(x, y, 60, 60);
           this.handleCoin(index);
+          this.handleFuel(index);
           camera.position.x = width/2;
           if(players[plr].positionY > height) {
             camera.position.y = y;
@@ -171,7 +187,8 @@ class Game {
       database.ref('/').set({
         playerCount: 0,
         gameState: 0,
-        players: {}
+        players: {},
+        carsEnd: 0
       });
       window.location.reload();
     });
@@ -218,5 +235,70 @@ class Game {
 
     this.leader1.html(leader1);
     this.leader2.html(leader2);
+  }
+
+  showLifeBar() {
+    push();
+    fill("white");
+    rect(player.positionX - 130, height - player.positionY - 130, 185, 20);
+    fill("red");
+    rect(
+      player.positionX - 130,
+      height - player.positionY - 130,
+      player.life,
+      20
+    );
+    pop();
+
+    image(
+      lifeImg,
+      player.positionX - 150,
+      height - player.positionY - 130,
+      20,
+      20
+    );
+  }
+
+  showFuelBar() {
+    push();
+    fill("white");
+    rect(player.positionX - 130, height - player.positionY - 100, 185, 20);
+    fill("#ffc400");
+    rect(
+      player.positionX - 130,
+      height - player.positionY - 100,
+      player.fuel,
+      20
+    );
+    pop();
+    image(
+      fuelImg,
+      player.positionX - 150,
+      height - player.positionY - 100,
+      20,
+      20
+    );
+  }
+
+  showRank() {
+    swal({
+      title: `Incrível!${"\n"}Rank${"\n"}${player.rank}`,
+      text: "Você alcançou a linha de chegada com sucesso!",
+      imageUrl:
+        "https://raw.githubusercontent.com/vishalgaddam873/p5-multiplayer-car-race-game/master/assets/cup.png",
+      imageSize: "100x100",
+      confirmButtonText: "Ok",
+    });
+  }
+
+  gameOver() {
+    swal({
+      title:"Game Over" ,
+      text: "você perdeu, tente novamente",
+      imageUrl:
+        "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+      imageSize: "100x100",
+      confirmButtonText: "obrigada por jogar",
+    });
   }
 }

@@ -1,11 +1,14 @@
 class Player {
   constructor() {
+    // propriedades
     this.name = null;
     this.index = null;
     this.positionX = 0;
     this.positionY = 0;
     this.rank = 0;
     this.score = 0;
+    this.fuel = 185;
+    this.life = 185;
   }
 
   update() {
@@ -14,7 +17,23 @@ class Player {
       positionX: this.positionX,
       positionY: this.positionY,
       rank: this.rank,
-      score: this.score
+      score: this.score,
+      fuel: this.fuel,
+      life: this.life,
+    });
+  }
+  // carsEnd -> contador de quantos carros terminaram
+  getCarsEnd() {
+    // criar referência
+    // criar escuta 
+    database.ref("/carsEnd").on("value", function (data) {
+      this.rank = data.val();
+    });
+  }
+
+  static updateCarsAtEnd(rank) {
+    database.ref("/").update({
+      carsEnd: rank
     });
   }
 

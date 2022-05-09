@@ -13,6 +13,7 @@ var obstaculo1;
 var obstaculo2;
 var obstacleGroup;
 var groupFuel;
+var carsEnd = 0;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -23,6 +24,7 @@ function preload() {
   obstaculo1 = loadImage('./assets/obstacle1.png');
   obstaculo2 = loadImage('./assets/obstacle2.png');
   fuelImg = loadImage('./assets/fuel.png');
+  // lifeImg = loadImage("./assets/life.png");
 }
 
 function setup() {
