@@ -12,6 +12,7 @@ var goldCoin, goldCoinGroup;
 var obstaculo1;
 var obstaculo2;
 var obstacleGroup;
+var groupFuel;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -21,6 +22,7 @@ function preload() {
   goldCoin = loadImage('./assets/goldCoin.png');
   obstaculo1 = loadImage('./assets/obstacle1.png');
   obstaculo2 = loadImage('./assets/obstacle2.png');
+  fuelImg = loadImage('./assets/fuel.png');
 }
 
 function setup() {

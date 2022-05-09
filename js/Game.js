@@ -27,6 +27,7 @@ class Game {
 
     goldCoinGroup = new Group();
     obstacleGroup = new Group();
+    groupFuel = new Group();
     this.addSprites(goldCoinGroup,10, goldCoin, 0.10);
 
     var groupObstaclePositions = [
@@ -43,8 +44,8 @@ class Game {
       { x: width / 2, y: height - 5300, image: obstaculo1 },
       { x: width / 2 - 180, y: height - 5500, image: obstaculo2 }
     ];
-    
     this.addSprites(obstacleGroup, groupObstaclePositions.length, obstaculo1, 0.04, groupObstaclePositions);
+    this.addSprites(groupFuel, 4, fuelImg, 0.02);
   }
 
   update(number) {
