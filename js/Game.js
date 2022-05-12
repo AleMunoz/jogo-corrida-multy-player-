@@ -6,6 +6,7 @@ class Game {
     this.leaderTitle = createElement('h2');
     this.leader1 = createElement('h2');
     this.leader2 = createElement('h2');
+    this.playerMoving = false;
   }
 
   start() {
@@ -45,7 +46,7 @@ class Game {
       { x: width / 2 - 180, y: height - 5500, image: obstaculo2 }
     ];
     this.addSprites(obstacleGroup, groupObstaclePositions.length, obstaculo1, 0.04, groupObstaclePositions);
-    this.addSprites(groupFuel, 4, fuelImg, 0.02);
+    this.addSprites(groupFuel, 10, fuelImg, 0.02);
   }
 
   update(number) {
@@ -114,13 +115,6 @@ class Game {
     });
   }
 
-  handleFuel(index) {
-    cars[index - 1].overlap(groupFuel, function(car, fuel) {
-      fuel.remove();
-      
-    });
-  }
-
   play() {
     this.handleElements();
     this.handleMousePressedResetButton();
@@ -131,12 +125,15 @@ class Game {
       player.rank += 1;
       Player.updateCarsAtEnd(player.rank);
       player.update();
+      gameState = 2;
       this.showRank();
     }
 
     if(players != undefined) {
       image(trackImg, 0, -height * 5, width, height * 6);
       this.showLeaderboard();
+      this.showFuelBar();
+      this.showLifeBar();
       var index = 0;
       for(var plr in players) {
         var x = players[plr].positionX;
@@ -169,6 +166,7 @@ class Game {
     if(keyIsDown(38)) {
       player.positionY += 10;
       player.update();
+      this.playerMoving = true;
     }
 
     if(keyIsDown(39)) {
@@ -238,25 +236,7 @@ class Game {
   }
 
   showLifeBar() {
-    push();
-    fill("white");
-    rect(player.positionX - 130, height - player.positionY - 130, 185, 20);
-    fill("red");
-    rect(
-      player.positionX - 130,
-      height - player.positionY - 130,
-      player.life,
-      20
-    );
-    pop();
-
-    image(
-      lifeImg,
-      player.positionX - 150,
-      height - player.positionY - 130,
-      20,
-      20
-    );
+   // criar uma lifebar
   }
 
   showFuelBar() {
@@ -278,6 +258,22 @@ class Game {
       20,
       20
     );
+  }
+  
+  handleFuel(index) {
+    cars[index - 1].overlap(groupFuel, (collector, collected) => {
+      player.fuel = 185;
+      collected.remove();
+    });
+    if (this.playerMoving == true) {
+      player.fuel -= 1;
+      this.playerMoving = false;
+    }
+
+    if (player.fuel <= 0) {
+      gameState = 2;
+      this.gameOver();
+    }
   }
 
   showRank() {

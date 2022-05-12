@@ -24,9 +24,7 @@ class Player {
   }
   // carsEnd -> contador de quantos carros terminaram
   getCarsEnd() {
-    // criar referência
-    // criar escuta 
-    database.ref("/carsEnd").on("value", function (data) {
+    database.ref("carsEnd").on("value", data => {
       this.rank = data.val();
     });
   }
