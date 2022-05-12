@@ -236,7 +236,12 @@ class Game {
   }
 
   showLifeBar() {
-   // criar uma lifebar
+   push();
+   fill("white");
+   rect(player.positionX - 130, height - player.positionY - 130, 185, 20);
+   fill("red");
+   rect(player.positionX - 130, height - player.positionY - 130, player.life, 20);
+   pop();
   }
 
   showFuelBar() {
