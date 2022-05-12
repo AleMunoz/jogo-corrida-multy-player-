@@ -7,6 +7,8 @@ class Game {
     this.leader1 = createElement('h2');
     this.leader2 = createElement('h2');
     this.playerMoving = false;
+    this.leftKeyActive = false;
+    this.blast = false;
   }
 
   start() {
@@ -18,10 +20,12 @@ class Game {
 
     car1 = createSprite(width/2-50, height-100);
     car1.addImage(car1Img);
+    car1.addImage("blast", blestCar);
     car1.scale = 0.07;
 
     car2 = createSprite(width/2+100, height-100);
     car2.addImage(car2Img);
+    car2.addImage("blast", blestCar);
     car2.scale = 0.07;
 
     cars = [car1, car2];
@@ -46,7 +50,22 @@ class Game {
       { x: width / 2 - 180, y: height - 5500, image: obstaculo2 }
     ];
     this.addSprites(obstacleGroup, groupObstaclePositions.length, obstaculo1, 0.04, groupObstaclePositions);
-    this.addSprites(groupFuel, 10, fuelImg, 0.02);
+    this.addSprites(groupFuel, 20, fuelImg, 0.02);
+  }
+
+  obstacleColision(index){
+    if(cars[index - 1].collide(obstacleGroup)) {
+      if(player.life > 0) {
+        player.life -= 185/4;
+      }
+
+      if (this.leftKeyActive) {
+        player.positionX += 100;
+      } else {
+        player.positionX -= 100;
+      }
+      player.update();
+    }
   }
 
   update(number) {
@@ -136,19 +155,29 @@ class Game {
       this.showLifeBar();
       var index = 0;
       for(var plr in players) {
+        var life = players[plr].life;
         var x = players[plr].positionX;
         var y = height-players[plr].positionY;
         cars[index].position.x = x;
         cars[index].position.y = y;
-
         
+        if (life <= 0) {
+          cars[index].changeImage("blast");
+          cars[index].scale = 0.3;
+        }
+
         index += 1;
 
         if(player.index == index) {
           fill('red');
           ellipse(x, y, 60, 60);
+          if(player.life <= 0) {
+            this.blast = true;
+            gameState = 2;
+          }
           this.handleCoin(index);
           this.handleFuel(index);
+          this.obstacleColision(index);
           camera.position.x = width/2;
           if(players[plr].positionY > height) {
             camera.position.y = y;
@@ -163,20 +192,24 @@ class Game {
   }
 
   handlePlayerController() {
-    if(keyIsDown(38)) {
-      player.positionY += 10;
-      player.update();
-      this.playerMoving = true;
-    }
+    if(!this.blast) {
+      if(keyIsDown(38)) {
+        player.positionY += 10;
+        player.update();
+        this.playerMoving = true;
+      }
 
-    if(keyIsDown(39)) {
-      player.positionX += 10;
-      player.update();
-    }
+      if(keyIsDown(39)) {
+        player.positionX += 10;
+        player.update();
+        this.leftKeyActive = false;
+      }
 
-    if(keyIsDown(37)) {
-      player.positionX -= 10;
-      player.update();
+      if(keyIsDown(37)) {
+        player.positionX -= 10;
+        player.update();
+        this.leftKeyActive = true;
+      }
     }
   }
 
@@ -271,7 +304,7 @@ class Game {
       collected.remove();
     });
     if (this.playerMoving == true) {
-      player.fuel -= 1;
+      player.fuel -= 0.5;
       this.playerMoving = false;
     }
 
